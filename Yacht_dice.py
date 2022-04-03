@@ -1,3 +1,5 @@
+#prototype of Yacht_dice
+
 import random
 
 dice = []
