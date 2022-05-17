@@ -14,12 +14,21 @@ di = ["dice1.png", "dice2.png", "dice3.png", "dice4.png", "dice5.png", "dice6.pn
 #주사위 굴리기(랜덤 지정)
 rule.roll()
 rule.count()
+print("처음 다이스 리스트:", rule.dice)
+print("처음 다이스 카운트 리스트:", rule.dice_count)
+print("처음 다이스 킵 리스트:", rule.dice_keep_list)
 #화면에 나온 이미지와 주사위 눈이 같은지 출력해서 확인
 
 #pygame문법
 while True:
     pygame.init()
     event = pygame.event.poll()
+
+    # 화면 종료 인식 + 인식 시 종료
+    if event.type == pygame.QUIT:
+        pygame.quit()
+        break
+
 
     #화면 설정
     display = pygame.display.set_mode((1200, 800))
@@ -31,6 +40,7 @@ while True:
     #rule에서 작성한 점수판 함수 실행
     rule.score_board(display)
     rule.score_load(display)
+    rule.keep_button(display)
 
 
     #화면에 랜덤으로 뽑은 주사위 출력
@@ -41,10 +51,7 @@ while True:
                 image = pygame.image.load(di[j - 1])
                 display.blit(image, [550 + 100 * i, 350])
 
+
     pygame.display.flip()
 
-    #화면 종료 인식 + 인식 시 종료
-    if event.type == pygame.QUIT:
-        pygame.quit()
-        break
 

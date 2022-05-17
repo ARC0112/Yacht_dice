@@ -13,6 +13,8 @@ white = (255, 255, 255)
 
 dice = [0, 0, 0, 0, 0]
 dice_count = [0, 0, 0, 0, 0, 0]
+dice_keep_list = [0, 0, 0, 0, 0]
+
 
 #주사위를 굴리는 함수
 def roll():
@@ -102,11 +104,60 @@ def yacht():
 
     return 0
 
+def keep_button(display):
+    pygame.draw.rect(display, black, [750, 500, 150, 50], 1)
+    font = pygame.font.SysFont(None, 30)
+    text = font.render('ReRoll', True, black)
+    display.blit(text, (790, 515))
+    for event in pygame.event.get():
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            pos = pygame.mouse.get_pos()
+            if (pos[0] >= 750 and  pos[0] <= 900) and (pos[1] >= 500 and pos[1] <= 550):
+                for i in range(5):
+                    if(dice_keep_list[i]==1):
+                        dice_count[dice[i]-1]-=1
+                        dice[i]=random.randrange(1,7)
+                        dice_keep_list[i]=0
+                        dice_count[dice[i]-1]+=1
+                        print(dice)
+                        print(dice_count)
+
+            elif(pos[0] >= 550 and  pos[0] <= 646) and (pos[1] >= 350 and pos[1] <= 446):
+                if(dice_keep_list[0]==0):
+                    dice_keep_list[0]=1
+                else:
+                   dice_keep_list[0]=0
+            elif(pos[0] >= 650 and  pos[0] <= 746) and (pos[1] >= 350 and pos[1] <= 446):
+                if(dice_keep_list[1]==0):
+                    dice_keep_list[1]=1
+                else:
+                   dice_keep_list[1]=0
+            elif(pos[0] >= 750 and  pos[0] <= 846) and (pos[1] >= 350 and pos[1] <= 446):
+                if(dice_keep_list[2]==0):
+                    dice_keep_list[2]=1
+                else:
+                   dice_keep_list[2]=0
+            elif(pos[0] >= 850 and  pos[0] <= 946) and (pos[1] >= 350 and pos[1] <= 446):
+                if(dice_keep_list[3]==0):
+                    dice_keep_list[3]=1
+                else:
+                   dice_keep_list[3]=0
+            elif(pos[0] >= 950 and  pos[0] <= 1046) and (pos[1] >= 350 and pos[1] <= 446):
+                if(dice_keep_list[4]==0):
+                    dice_keep_list[4]=1
+                else:
+                   dice_keep_list[4]=0
+            else:
+                print("FAIL")
+                return
+
+
+
 #점수판
 def score_board(display):
     #기본틀 그리기
     pygame.draw.rect(display, black, [50, 5, 400, 780], 1)
-
+    
     # 유저 칸 그리기
     pygame.draw.line(display, black, [228, 30], [428, 30], 3)
     pygame.draw.line(display, black, [428, 30], [428, 130], 3)
@@ -121,8 +172,20 @@ def score_board(display):
     pygame.draw.line(display, black, [70, 290], [429, 290], 3)
     pygame.draw.line(display, black, [70, 330], [429, 330], 3)
     pygame.draw.line(display, black, [70, 370], [429, 370], 3)
+    pygame.draw.line(display, black, [70, 397], [429, 397], 3)
     pygame.draw.line(display, black, [328, 130], [328, 431], 3)
     pygame.draw.line(display, black, [228, 130], [228, 431], 3)
+    font = pygame.font.SysFont(None, 25)
+    subTotal = font.render("Subtotal", True, black)
+    display.blit(subTotal, (80, 378))
+
+    font = pygame.font.SysFont(None, 30)
+    bonus = font.render("35 Bonus", True, black)
+    display.blit(bonus, (93, 405))
+
+    font = pygame.font.SysFont(None, 35)
+    plus = font.render("+", True, black)
+    display.blit(plus, (80, 400))
 
     #CHOICE 칸 만들기
     pygame.draw.rect(display, black, [70, 457, 360, 40], 3)
@@ -147,10 +210,12 @@ def score_board(display):
     pygame.draw.rect(display, black, [70, 710, 360, 70], 3)
     pygame.draw.line(display, black, [328, 710], [328, 779], 3)
     pygame.draw.line(display, black, [228, 710], [228, 779], 3)
+    font = pygame.font.SysFont(None, 30)
+    total = font.render("Total", True, black)
+    display.blit(total, (82, 735))
+
 
     #규칙 그리기
-    font = pygame.font.SysFont(None, 30)
-
     aces = font.render('Aces', True, black)
     deuces = font.render('Deuces', True, black)
     threes = font.render('Threes', True, black)
@@ -192,8 +257,10 @@ def score_load(display):
     name = font.render('USER1', True, black)
     display.blit(name, (245, 75))
 
-    #어떤 텍스르를 넣을지 설정
+    name = font.render('USER2', True, black)
+    display.blit(name, (345, 75))
 
+    #어떤 텍스르를 넣을지 설정
     #Aces, Dueces와 같은 기본 규칙을 반복문으로 표시
     for i in range(6):
         text1 = font.render(str(dice_count[i] * (i + 1)), True, black)
@@ -215,7 +282,6 @@ def score_load(display):
         else:
             display.blit(text2, (265, 470 + 40 * j))
         j += 1
-
 
 
 
